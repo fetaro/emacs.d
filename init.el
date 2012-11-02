@@ -193,15 +193,10 @@
 
 
 ;;;;;; flymake for ruby
-
-;; ruby-mode
-;(autoload 'ruby-mode "ruby-mode" )
-;(setq auto-mode-alist
-;      (cons '("\\.rb\\'" . ruby-mode) auto-mode-alist))
-;(require 'ruby-mode)
-;(defun ruby-mode-set-encoding () ())
-
 (require 'flymake)
+;;  flymake color
+(set-face-background 'flymake-errline "PeachPuff")
+(set-face-background 'flymake-warnline "LemonChiffon")
 ;; Invoke ruby with '-c' to get syntax checking
 (defun flymake-ruby-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
