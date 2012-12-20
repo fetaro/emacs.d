@@ -1,15 +1,21 @@
+;; use backspace
+(define-key global-map "\C-h" 'delete-backward-char)
+
 ;; set load path
 (let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
   (add-to-list 'load-path default-directory)
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (normal-top-level-add-subdirs-to-load-path)))
 
-;; setup auto-install
+;; auto-install
 (when (require 'auto-install nil t)
   (setq auto-install-directory"~/.emacs.d/elisp/")
   (auto-install-update-emacswiki-package-name t)
   (auto-install-compatibility-setup))
 
+;;undo hist
+(when (require 'undohist nil t)
+  (undohist-initialize))
 
 ;; TAB width
 (setq-default tab-width 4)
@@ -38,8 +44,11 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 
-;; use backspace
-(define-key global-map "\C-h" 'delete-backward-char)
+;; anything
+(require 'anything-config)
+
+;; C-i anything-show-kil-ring
+(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
 
 ;; C-c f   Untab and Indent
 (global-set-key (kbd "C-c f") 'untabify-and-indent-whole-buffer)
