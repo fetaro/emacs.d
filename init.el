@@ -1,8 +1,15 @@
 ;; set load path
-(let ((default-directory (expand-file-name "~/.emacs.d/site-lisp")))
+(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
   (add-to-list 'load-path default-directory)
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (normal-top-level-add-subdirs-to-load-path)))
+
+;; setup auto-install
+(when (require 'auto-install nil t)
+  (setq auto-install-directory"~/.emacs.d/elisp/")
+  (auto-install-update-emacswiki-package-name t)
+  (auto-install-compatibility-setup))
+
 
 ;; TAB width
 (setq-default tab-width 4)
