@@ -211,8 +211,10 @@
 ;;;;;; flymake for ruby
 (require 'flymake)
 ;;  flymake color
-(set-face-background 'flymake-errline "PeachPuff")
-(set-face-background 'flymake-warnline "LemonChiffon")
+(set-face-background 'flymake-errline "VioletRed4")
+(set-face-foreground 'flymake-errline "snow")
+(set-face-background 'flymake-warnline "VioletRed4")
+(set-face-foreground 'flymake-warnline "snow")
 ;; Invoke ruby with '-c' to get syntax checking
 (defun flymake-ruby-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
