@@ -1,6 +1,10 @@
 ;; use backspace
 (define-key global-map "\C-h" 'delete-backward-char)
 
+;;-------------------------
+;; package
+;;-------------------------
+
 ;; set load path
 (let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
   (add-to-list 'load-path default-directory)
@@ -8,14 +12,50 @@
       (normal-top-level-add-subdirs-to-load-path)))
 
 ;; auto-install
-(when (require 'auto-install nil t)
-  (setq auto-install-directory"~/.emacs.d/elisp/")
-  (auto-install-update-emacswiki-package-name t)
-  (auto-install-compatibility-setup))
+;(when (require 'auto-install nil t)
+;  (setq auto-install-directory"~/.emacs.d/elisp/")
+;  (auto-install-update-emacswiki-package-name t)
+;  (auto-install-compatibility-setup))
 
 ;;undo hist
 (when (require 'undohist nil t)
   (undohist-initialize))
+
+;;undo-tree
+(when (require 'undo-tree nil t)
+  (global-undo-tree-mode))
+
+;; redo+
+(require 'redo)
+
+;; anything
+(require 'anything-config)
+
+;;-------------------------
+;; key map
+;;-------------------------
+
+(global-set-key (kbd "C-l") 'redo)
+(global-set-key (kbd "C-c /") 'undo-tree-visualize)
+(global-set-key (kbd "C-r") 'query-replace)
+(global-set-key (kbd "C-c g") 'goto-line)
+(global-set-key (kbd "C-c f") 'anything-for-files)
+(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
+(global-set-key (kbd "C-c l") 'toggle-truncate-lines)
+(global-set-key (kbd "C-c b") 'describe-bindings)
+(global-set-key (kbd "C-t" ) 'other-window)
+
+;; C-F   Untab and Indent
+(global-set-key (kbd "C-F") 'untabify-and-indent-whole-buffer)
+(defun untabify-and-indent-whole-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max))
+  (indent-region (point-min) (point-max)))
+
+
+;;-------------------------
+;; config
+;;-------------------------
 
 ;; TAB width
 (setq-default tab-width 4)
@@ -43,26 +83,6 @@
 ;; hide menu bar
 (menu-bar-mode 0)
 (tool-bar-mode 0)
-
-;; anything
-(require 'anything-config)
-
-;; C-i anything-show-kil-ring
-(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
-
-;; C-c f   Untab and Indent
-(global-set-key (kbd "C-c f") 'untabify-and-indent-whole-buffer)
-(defun untabify-and-indent-whole-buffer ()
-  (interactive)
-  (untabify (point-min) (point-max))
-  (indent-region (point-min) (point-max)))
-
-
-;; C-c l  toggle truncate lines
-(define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
-
-;; C-t    other window
-(define-key global-map (kbd "C-t" ) 'other-window)
 
 ;; Show TAB and ZENKAKU space
 (defface my-face-b-1 '((t (:background "bisque"))) nil)
