@@ -101,34 +101,54 @@
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
 
+;; Do not make buffer , when directory traversal
+(defvar my-dired-before-buffer nil)
+(defadvice dired-advertised-find-file
+  (before kill-dired-buffer activate)
+  (setq my-dired-before-buffer (current-buffer)))
+
+(defadvice dired-advertised-find-file
+  (after kill-dired-buffer-after activate)
+  (if (eq major-mode 'dired-mode)
+      (kill-buffer my-dired-before-buffer)))
+
+(defadvice dired-up-directory
+  (before kill-up-dired-buffer activate)
+  (setq my-dired-before-buffer (current-buffer)))
+
+(defadvice dired-up-directory
+  (after kill-up-dired-buffer-after activate)
+  (if (eq major-mode 'dired-mode)
+      (kill-buffer my-dired-before-buffer)))
+
 ;; Color
-                                        ;(set-background-color "#000000")
-                                        ;(set-foreground-color "#ffffff")
-                                        ;(set-cursor-color "#ffffff")
+;(set-background-color "#000000")
+;(set-foreground-color "#ffffff")
+;(set-cursor-color "#ffffff")
 
 ;; Buffer frame title 
-                                        ;(setq frame-title-format
-                                        ;      (concat  "%b - emacs@" (system-name)))
+;(setq frame-title-format
+;      (concat  "%b - emacs@" (system-name)))
 
 
 ;; Change coursor with IME ON/OFF
-                                        ;(add-hook 'mw32-ime-on-hook
-                                        ;          (function (lambda () (set-cursor-color "SkyBlue"))))
-                                        ;(add-hook 'mw32-ime-off-hook
-                                        ;          (function (lambda () (set-cursor-color "LemonChiffon"))))
-                                        ;(setq-default mw32-ime-mode-line-state-indicator "[--]")
-                                        ;(setq mw32-ime-mode-line-state-indicator-list '("[--]" "[J]" "[--]"))
-                                        ;(mw32-ime-initialize)  ;; IME の初期化
+;(add-hook 'mw32-ime-on-hook
+;          (function (lambda () (set-cursor-color "SkyBlue"))))
+;(add-hook 'mw32-ime-off-hook
+;          (function (lambda () (set-cursor-color "LemonChiffon"))))
+;(setq-default mw32-ime-mode-line-state-indicator "[--]")
+;(setq mw32-ime-mode-line-state-indicator-list '("[--]" "[J]" "[--]"))
+;(mw32-ime-initialize)  ;; IME の初期化
 
 ;; scroll by 1 line
-                                        ;(setq scroll-conservatively 35
-                                        ;       scroll-margin 0
-                                        ;       scroll-step 1)
-                                        ;(setq comint-scroll-show-maximum-output t)
+;(setq scroll-conservatively 35
+;       scroll-margin 0
+;       scroll-step 1)
+;(setq comint-scroll-show-maximum-output t)
 
 ;; turn on font-lock mode
-                                        ;(when (fboundp 'global-font-lock-mode)
-                                        ;  (global-font-lock-mode t))
+;(when (fboundp 'global-font-lock-mode)
+;  (global-font-lock-mode t))
 
 ;;--------------------------------------
 ;; File type
@@ -143,7 +163,7 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; pretty js2mode indent
-                                        ; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
+; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
 (autoload 'espresso-mode "espresso")
 
 (defun my-js2-indent-function ()
@@ -209,7 +229,7 @@
   (c-toggle-auto-state 0)
   (c-toggle-hungry-state 1)
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-                                        ; (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
+; (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
   (define-key js2-mode-map "\C-\M-\\"
     '(lambda()
        (interactive)
@@ -218,8 +238,8 @@
          (insert " ]----- */"))
        ))
   (define-key js2-mode-map "\C-m" 'newline-and-indent)
-                                        ; (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
-                                        ; (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
+; (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
+; (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
   (define-key js2-mode-map "\C-\M-q" 'my-indent-sexp)
   (if (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode))
