@@ -18,8 +18,8 @@
                                         ;  (auto-install-compatibility-setup))
 
 ;;undo hist
-(when (require 'undohist nil t)
-  (undohist-initialize))
+;(when (require 'undohist nil t)
+;  (undohist-initialize))
 
 ;;undo-tree
 (when (require 'undo-tree nil t)
@@ -52,6 +52,10 @@
   (untabify (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
+;; dmacro
+(defconst *dmacro-key* "\C-o" "repeat key")
+(global-set-key *dmacro-key* 'dmacro-exec)
+(autoload 'dmacro-exec "dmacro" nil t)
 
 ;;-------------------------
 ;; config
