@@ -52,6 +52,8 @@
 ;;anything
 (global-set-key (kbd "C-c f") 'anything-for-files)
 (global-set-key (kbd "C-c y") 'anything-show-kill-ring)
+(global-set-key (kbd "C-c t") 'anything-c-etags-select)
+
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
@@ -244,6 +246,21 @@
 ;; highlight ( )
 (when (require 'ruby-block nil t)
   (setq ruby-block-highlight-toggle t))
+;; inf ruby
+(autoload 'ruby-mode "ruby-mode"
+  "Mode for editing ruby source files" t)
+(setq auto-mode-alist
+      (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
+(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+                                     interpreter-mode-alist))
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (inf-ruby-keys)))
+
 
 ;; flymake for ruby
 (require 'flymake)
