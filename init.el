@@ -12,10 +12,10 @@
       (normal-top-level-add-subdirs-to-load-path)))
 
 ;; auto-install
-                                        ;(when (require 'auto-install nil t)
-                                        ;  (setq auto-install-directory"~/.emacs.d/elisp/")
-                                        ;  (auto-install-update-emacswiki-package-name t)
-                                        ;  (auto-install-compatibility-setup))
+;(when (require 'auto-install nil t)
+;  (setq auto-install-directory"~/.emacs.d/elisp/")
+;  (auto-install-update-emacswiki-package-name t)
+;  (auto-install-compatibility-setup))
 
 ;;undo hist
 ;(when (require 'undohist nil t)
@@ -30,20 +30,28 @@
 
 ;; anything
 (require 'anything-config)
+(require 'descbinds-anything)
+(descbinds-anything-install)
+
+;; rectangle cut C-RET
+(cua-mode t)
+(setq cua-enable-cua-keys nil)
 
 ;;-------------------------
 ;; key map
 ;;-------------------------
 
-(global-set-key (kbd "C-l") 'redo)
+(global-set-key (kbd "M-/") 'redo)
 (global-set-key (kbd "C-c /") 'undo-tree-visualize)
 (global-set-key (kbd "C-r") 'query-replace)
 (global-set-key (kbd "C-c g") 'goto-line)
-(global-set-key (kbd "C-c f") 'anything-for-files)
-(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
 (global-set-key (kbd "C-c b") 'describe-bindings)
 (global-set-key (kbd "C-t" ) 'other-window)
+(global-set-key (kbd "C-q" ) 'kill-ring-save) ;copy
+;;anything
+(global-set-key (kbd "C-c f") 'anything-for-files)
+(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
@@ -69,7 +77,7 @@
 (setq indent-line-function 'indent-relative-maybe)
 
 ;; can not make backup file like  *.~
-                                        ;(setq make-backup-files nil)
+;(setq make-backup-files nil)
 ;; make backup file to ~/.emacs.d/backup
 (setq backup-directory-alist
       (cons (cons "\\.*$" (expand-file-name "~/.emacs.d/backup"))
@@ -165,11 +173,10 @@
 ;;; js2-mode
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-mode-hook 'js-indent-hook)
 
 ;; pretty js2mode indent
 ; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
-(autoload 'espresso-mode "espresso")
-
 (defun my-js2-indent-function ()
   (interactive)
   (save-restriction
@@ -179,28 +186,17 @@
            (offset (- (current-column) (current-indentation)))
            (indentation (espresso--proper-indentation parse-status))
            node)
-
       (save-excursion
-
-        ;; I like to indent case and labels to half of the tab width
         (back-to-indentation)
         (if (looking-at "case\\s-")
             (setq indentation (+ indentation (/ espresso-indent-level 2))))
-
-        ;; consecutive declarations in a var statement are nice if
-        ;; properly aligned, i.e:
-        ;;
-        ;; var foo = "bar",
-        ;;     bar = "foo";
         (setq node (js2-node-at-point))
         (when (and node
                    (= js2-NAME (js2-node-type node))
                    (= js2-VAR (js2-node-type (js2-node-parent node))))
           (setq indentation (+ 4 indentation))))
-
       (indent-line-to indentation)
       (when (> offset 0) (forward-char offset)))))
-
 (defun my-indent-sexp ()
   (interactive)
   (save-restriction
@@ -216,15 +212,12 @@
         (overlay-put ovl 'face 'highlight)
         (goto-char beg)
         (while (< (point) (marker-position end-marker))
-          ;; don't reindent blank lines so we don't set the "buffer
-          ;; modified" property for nothing
           (beginning-of-line)
           (unless (looking-at "\\s-*$")
             (indent-according-to-mode))
           (forward-line))
         (run-with-timer 0.5 nil '(lambda(ovl)
                                    (delete-overlay ovl)) ovl)))))
-
 (defun my-js2-mode-hook ()
   (require 'espresso)
   (setq espresso-indent-level 4
@@ -233,7 +226,6 @@
   (c-toggle-auto-state 0)
   (c-toggle-hungry-state 1)
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-; (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
   (define-key js2-mode-map "\C-\M-\\"
     '(lambda()
        (interactive)
@@ -242,17 +234,18 @@
          (insert " ]----- */"))
        ))
   (define-key js2-mode-map "\C-m" 'newline-and-indent)
-; (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
-; (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
   (define-key js2-mode-map "\C-\M-q" 'my-indent-sexp)
   (if (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode))
   (message "My JS2 hook"))
-
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
+;;;; ruby
+;; highlight ( )
+(when (require 'ruby-block nil t)
+  (setq ruby-block-highlight-toggle t))
 
-;;;;;; flymake for ruby
+;; flymake for ruby
 (require 'flymake)
 ;;  flymake color
 (set-face-background 'flymake-errline "VioletRed4")
@@ -273,13 +266,9 @@
 (add-hook
  'ruby-mode-hook
  '(lambda ()
-    ;; Don't want flymake mode for ruby regions in rhtml files
     (if (not (null buffer-file-name)) (flymake-mode))
-    ;; C-c d at error line , show error to minibuffer
     (define-key ruby-mode-map "\C-cd" 'credmp/flymake-display-err-minibuf)))
-
 (defun credmp/flymake-display-err-minibuf ()
-  "Displays the error/warning for the current line in the minibuffer"
   (interactive)
   (let* ((line-no             (flymake-current-line-no))
          (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
