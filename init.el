@@ -33,7 +33,7 @@
 (require 'descbinds-anything)
 (descbinds-anything-install)
 
-;; rectangle cut C-RET
+;; rectangle mark
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
@@ -42,18 +42,18 @@
 ;;-------------------------
 
 (global-set-key (kbd "M-/") 'redo)
-(global-set-key (kbd "C-c /") 'undo-tree-visualize)
 (global-set-key (kbd "C-r") 'query-replace)
+(global-set-key (kbd "C-t") 'other-window)
+(global-set-key (kbd "C-q") 'kill-ring-save) ;copy
+(global-set-key (kbd "C-c /") 'undo-tree-visualize)
 (global-set-key (kbd "C-c g") 'goto-line)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
-(global-set-key (kbd "C-c b") 'describe-bindings)
-(global-set-key (kbd "C-t" ) 'other-window)
-(global-set-key (kbd "C-q" ) 'kill-ring-save) ;copy
+(global-set-key (kbd "C-c d") 'describe-bindings)
+(global-set-key (kbd "C-c b") 'cua-set-rectangle-mark) ;rectangle
 ;;anything
 (global-set-key (kbd "C-c f") 'anything-for-files)
 (global-set-key (kbd "C-c y") 'anything-show-kill-ring)
 (global-set-key (kbd "C-c t") 'anything-c-etags-select)
-
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
