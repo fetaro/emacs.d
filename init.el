@@ -37,6 +37,23 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
+;; minibuf-isearch
+;; length of buffer list : t means infinity
+;(setq history-length t)
+
+;; session.el
+(when (require 'session nil t)
+  (setq session-initialize '(de-saveplace session keys menus places)
+        session-globals-include '((kill-ring 50)
+                                  (session-file-alist 500 t)
+                                  (file-name-history 10000)))
+  (add-hook 'after-init-hook 'session-initialize)
+  ;; cursole restore
+  (setq session-undo-check -1))
+
+;; minibuf-isearch
+;(require 'minibuf-isearch nil t)
+
 ;;-------------------------
 ;; key map
 ;;-------------------------
@@ -167,6 +184,11 @@
 ;;--------------------------------------
 ;; File type
 ;;--------------------------------------
+
+;; ruby on rails
+(add-to-list 'auto-mode-alist '("\\.js.erb$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.css.erb$" . css-mode))
+
 
 ;; php-mode
 (autoload 'php-mode "php-mode" )
