@@ -188,6 +188,7 @@
 ;; ruby on rails
 (add-to-list 'auto-mode-alist '("\\.js.erb$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.css.erb$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.css.scss$" . css-mode))
 
 
 ;; php-mode
