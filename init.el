@@ -130,13 +130,14 @@
 (setq inhibit-startup-message t)
 
 ;; hide menu bar
-(menu-bar-mode 0)
+(menu-bar-mode 1)
 (tool-bar-mode 0)
 
 ;; Show TAB and ZENKAKU space
 (defface my-face-b-1 '((t (:background "bisque"))) nil)
-(defface my-face-b-2 '((t (:background "LemonChiffon2"))) nil)
-(defface my-face-u-1 '((t (:foreground "SteelBlue" :underline t))) nil)
+;;(defface my-face-b-2 '((t (:background "LemonChiffon2"))) nil)
+(defface my-face-b-2 '((t (:background "gray7"))) nil)
+(defface my-face-u-1 '((t (:foreground "gray10" :underline t))) nil)
 (defvar my-face-b-1 'my-face-b-1)
 (defvar my-face-b-2 'my-face-b-2)
 (defvar my-face-u-1 'my-face-u-1)
