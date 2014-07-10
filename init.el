@@ -2,6 +2,21 @@
 (define-key global-map "\C-h" 'delete-backward-char)
 
 ;;-------------------------
+;; OS
+;;-------------------------
+(cond
+ ((string-match "windows-nt" system-configuration)
+  (load "~/.emacs.d/os/win.el")
+  )
+ ((string-match "gnu/linux" system-configuration)
+  (load "~/.emacs.d/os/linux.el")
+  )
+ ((string-match "darwin" system-configuration)
+  (load "~/.emacs.d/os/mac.el")
+  )
+)
+
+;;-------------------------
 ;; package
 ;;-------------------------
 
@@ -54,23 +69,6 @@
 ;; minibuf-isearch
 ;(require 'minibuf-isearch nil t)
 
-;; coffee-mode
-(require 'coffee-mode)
-(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (and (set (make-local-variable 'tab-width) 2)
-       (set (make-local-variable 'coffee-tab-width) 2))
-  )
-
-(add-hook 'coffee-mode-hook
-  '(lambda() (coffee-custom)))
-
-;; markdown-mode
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;;-------------------------
 ;; key map
@@ -204,16 +202,19 @@
 ;; File type
 ;;--------------------------------------
 
-;; ruby on rails
-(add-to-list 'auto-mode-alist '("\\.js.erb$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.css.erb$" . css-mode))
-(add-to-list 'auto-mode-alist '("\\.css.scss$" . css-mode))
-
+;;----------
+;; PHP
+;;----------
 
 ;; php-mode
 (autoload 'php-mode "php-mode" )
 (setq auto-mode-alist
       (cons '("\\.php\\'" . php-mode) auto-mode-alist))
+
+;;----------
+;; javascript
+;;----------
+
 ;;; js2-mode
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -284,7 +285,15 @@
   (message "My JS2 hook"))
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
-;;;; ruby
+;;-----------
+;; ruby
+;;-----------
+
+;; ruby on rails
+(add-to-list 'auto-mode-alist '("\\.js.erb$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.css.erb$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.css.scss$" . css-mode))
+
 ;; highlight ( )
 (when (require 'ruby-block nil t)
   (setq ruby-block-highlight-toggle t))
@@ -365,3 +374,25 @@
           )
         )
       (setq count (1- count)))))
+
+;;---------
+;; coffee
+;;---------
+(require 'coffee-mode)
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (and (set (make-local-variable 'tab-width) 2)
+       (set (make-local-variable 'coffee-tab-width) 2))
+  )
+
+(add-hook 'coffee-mode-hook
+  '(lambda() (coffee-custom)))
+
+;;---------
+;; markdown
+;;---------
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
