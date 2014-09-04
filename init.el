@@ -1,11 +1,13 @@
 ;; use backspace
 (define-key global-map "\C-h" 'delete-backward-char)
+;; change home directory
+(cd "~/")
 
 ;;-------------------------
 ;; OS
 ;;-------------------------
 (cond
- ((string-match "windows-nt" system-configuration)
+ ((string-match "wingw" system-configuration)
   (load "~/.emacs.d/os/win.el")
   )
  ((string-match "gnu/linux" system-configuration)
@@ -128,7 +130,7 @@
 (setq inhibit-startup-message t)
 
 ;; hide menu bar
-(menu-bar-mode 1)
+(menu-bar-mode 0)
 (tool-bar-mode 0)
 
 ;; Show TAB and ZENKAKU space
