@@ -8,7 +8,7 @@
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
-     (color-theme-standard)))
+     (color-theme-arjen)))
 
 ;;-------------------------
 ;; OS
