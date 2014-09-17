@@ -4,7 +4,7 @@
  ;; english
  (set-face-attribute 'default nil
              :family "Menlo" ;; font
-             :height 150)    ;; font size
+             :height 110)    ;; font size
 
 ;; japanese
 (set-fontset-font

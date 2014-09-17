@@ -98,15 +98,15 @@
 ;; color
  (set-face-attribute
    'tabbar-default nil
-   :background "gray90")
+   :background "dim gray")
   (set-face-attribute
    'tabbar-unselected nil
-   :background "gray90"
+   :background "dim gray"
    :foreground "black"
    :box nil)
   (set-face-attribute
    'tabbar-selected nil
-   :background "black"
+   :background "firebrick"
    :foreground "white"
    :box nil)
 
