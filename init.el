@@ -75,10 +75,35 @@
 ;(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
 
-;; tabber
+;;;; tabber
 (require 'tabbar)
 (tabbar-mode 1)
+;; no group
+(setq tabbar-buffer-groups-function nil)
+;; delete left button
+(dolist (btn '(tabbar-buffer-home-button
+               tabbar-scroll-left-button
+               tabbar-scroll-right-button))
+  (set btn (cons (cons "" nil)
+                 (cons "" nil))))
+;; span
+(setq tabbar-separator '(0.8))
+;; color
+ (set-face-attribute
+   'tabbar-default nil
+   :background "gray90")
+  (set-face-attribute
+   'tabbar-unselected nil
+   :background "gray90"
+   :foreground "black"
+   :box nil)
+  (set-face-attribute
+   'tabbar-selected nil
+   :background "black"
+   :foreground "white"
+   :box nil)
 
+;; hide buffer start with *
 (defun my-tabbar-buffer-list ()
   (delq nil
         (mapcar #'(lambda (b)
@@ -87,11 +112,13 @@
                      ((eq (current-buffer) b) b)
                      ((buffer-file-name b) b)
                      ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                     ((equal "*scratch*" (buffer-name b)) b)
                      ((char-equal ?* (aref (buffer-name b) 0)) nil)
                      ((buffer-live-p b) b)))
                 (buffer-list))))
 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+;; key bind
+(global-set-key (kbd "C-x n") 'tabbar-forward)
+(global-set-key (kbd "C-x p") 'tabbar-backward)
 
 ;;-------------------------
 ;; key map
