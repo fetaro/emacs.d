@@ -57,6 +57,7 @@
 ;; minibuf-isearch
 ;; length of buffer list : t means infinity
 ;(setq history-length t)
+;(require 'minibuf-isearch nil t)
 
 ;; session.el
 (when (require 'session nil t)
@@ -68,9 +69,29 @@
   ;; cursole restore
   (setq session-undo-check -1))
 
-;; minibuf-isearch
-;(require 'minibuf-isearch nil t)
 
+;; wdired
+;(require 'wdired)
+;(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+
+
+;; tabber
+(require 'tabbar)
+(tabbar-mode 1)
+
+(defun my-tabbar-buffer-list ()
+  (delq nil
+        (mapcar #'(lambda (b)
+                    (cond
+                     ;; Always include the current buffer.
+                     ((eq (current-buffer) b) b)
+                     ((buffer-file-name b) b)
+                     ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+                     ((equal "*scratch*" (buffer-name b)) b)
+                     ((char-equal ?* (aref (buffer-name b) 0)) nil)
+                     ((buffer-live-p b) b)))
+                (buffer-list))))
+(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 
 ;;-------------------------
 ;; key map
