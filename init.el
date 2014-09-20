@@ -218,17 +218,21 @@
 ;(set-cursor-color "#ffffff")
 
 ;; theme
-;(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-;(require 'color-theme)
-;(eval-after-load "color-theme"
-;  '(progn
-;     (color-theme-initialize)
-;     (color-theme-arjen)))
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-arjen)))
 
 
 ;; Show TAB and ZENKAKU space
 ;"　" <- ZENKAKU space
 ;"	" <- TAB
+;; ZENKAKU space color
+(defface my-face-zenkakuspace '((t (:background "gray10"))) nil)
+;; tab color
+(defface my-face-tab '((t (:background "gray10"))) nil)
 (defvar my-face-zenkakuspace 'my-face-zenkakuspace)
 (defvar my-face-tab 'my-face-tab)
 (defadvice font-lock-mode (before my-font-lock-mode ())
@@ -239,6 +243,12 @@
      )))
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
+
+;; font-lock-keyword-face
+(custom-set-variables
+ '(session-use-package t nil (session)))
+(custom-set-faces
+ '(font-lock-keyword-face ((t (:foreground "light green")))))
 
 
 ;;--------------------------------------
@@ -453,3 +463,5 @@
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+
