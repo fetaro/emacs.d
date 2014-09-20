@@ -2,13 +2,11 @@
 (define-key global-map "\C-h" 'delete-backward-char)
 ;; change home directory
 (cd "~/")
-;; theme
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-arjen)))
+;; set load path
+(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
+  (add-to-list 'load-path default-directory)
+  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+      (normal-top-level-add-subdirs-to-load-path)))
 
 ;;-------------------------
 ;; OS
@@ -28,12 +26,6 @@
 ;;-------------------------
 ;; package
 ;;-------------------------
-
-;; set load path
-(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-  (add-to-list 'load-path default-directory)
-  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-      (normal-top-level-add-subdirs-to-load-path)))
 
 ;; auto-install
 ;(when (require 'auto-install nil t)
@@ -82,7 +74,9 @@
 ;(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
 
-;;;; tabber
+;;---------
+;; tabber
+;;---------
 (require 'tabbar)
 (tabbar-mode 1)
 ;; no group
@@ -188,24 +182,6 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 
-;; Show TAB and ZENKAKU space
-(defface my-face-b-1 '((t (:background "bisque"))) nil)
-;;(defface my-face-b-2 '((t (:background "LemonChiffon2"))) nil)
-(defface my-face-b-2 '((t (:background "gray7"))) nil)
-(defface my-face-u-1 '((t (:foreground "gray10" :underline t))) nil)
-(defvar my-face-b-1 'my-face-b-1)
-(defvar my-face-b-2 'my-face-b-2)
-(defvar my-face-u-1 'my-face-u-1)
-(defadvice font-lock-mode (before my-font-lock-mode ())
-  (font-lock-add-keywords
-   major-mode
-   '(("　" 0 my-face-b-1 append)
-     ("\t" 0 my-face-b-2 append)
-     ("[ \t]+$" 0 my-face-u-1 append)
-     )))
-(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
-(ad-activate 'font-lock-mode)
-
 ;; Do not make buffer , when directory traversal
 (defvar my-dired-before-buffer nil)
 (defadvice dired-advertised-find-file
@@ -226,34 +202,44 @@
   (if (eq major-mode 'dired-mode)
       (kill-buffer my-dired-before-buffer)))
 
-;; Color
-;(set-background-color "#000000")
-;(set-foreground-color "#ffffff")
-;(set-cursor-color "#ffffff")
-
-;; Buffer frame title 
-;(setq frame-title-format
-;      (concat  "%b - emacs@" (system-name)))
-
-
-;; Change coursor with IME ON/OFF
-;(add-hook 'mw32-ime-on-hook
-;          (function (lambda () (set-cursor-color "SkyBlue"))))
-;(add-hook 'mw32-ime-off-hook
-;          (function (lambda () (set-cursor-color "LemonChiffon"))))
-;(setq-default mw32-ime-mode-line-state-indicator "[--]")
-;(setq mw32-ime-mode-line-state-indicator-list '("[--]" "[J]" "[--]"))
-;(mw32-ime-initialize)  ;; IME の初期化
-
 ;; scroll by 1 line
 ;(setq scroll-conservatively 35
 ;       scroll-margin 0
 ;       scroll-step 1)
 ;(setq comint-scroll-show-maximum-output t)
 
-;; turn on font-lock mode
-;(when (fboundp 'global-font-lock-mode)
-;  (global-font-lock-mode t))
+;;-------------------------
+;; color
+;;-------------------------
+
+;; Color
+;(set-background-color "#000000")
+;(set-foreground-color "#ffffff")
+;(set-cursor-color "#ffffff")
+
+;; theme
+;(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+;(require 'color-theme)
+;(eval-after-load "color-theme"
+;  '(progn
+;     (color-theme-initialize)
+;     (color-theme-arjen)))
+
+
+;; Show TAB and ZENKAKU space
+;"　" <- ZENKAKU space
+;"	" <- TAB
+(defvar my-face-zenkakuspace 'my-face-zenkakuspace)
+(defvar my-face-tab 'my-face-tab)
+(defadvice font-lock-mode (before my-font-lock-mode ())
+  (font-lock-add-keywords
+   major-mode
+   '(("　" 0 my-face-zenkakuspace append)
+     ("\t" 0 my-face-tab append)
+     )))
+(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
+(ad-activate 'font-lock-mode)
+
 
 ;;--------------------------------------
 ;; File type
