@@ -224,6 +224,11 @@
   '(progn
      (color-theme-initialize)
      (color-theme-arjen)))
+;; font-lock-keyword-face
+(custom-set-variables
+ '(session-use-package t nil (session)))
+(custom-set-faces
+ '(font-lock-keyword-face ((t (:foreground "cyan" :bold t)))))
 
 
 ;; Show TAB and ZENKAKU space
@@ -244,11 +249,6 @@
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
 
-;; font-lock-keyword-face
-(custom-set-variables
- '(session-use-package t nil (session)))
-(custom-set-faces
- '(font-lock-keyword-face ((t (:foreground "light green")))))
 
 
 ;;--------------------------------------
