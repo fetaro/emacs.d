@@ -15,7 +15,7 @@
  ((string-match "wingw" system-configuration)
   (load "~/.emacs.d/os/win.el")
   )
- ((string-match "gnu/linux" system-configuration)
+ ((string-match "linux" system-configuration)
   (load "~/.emacs.d/os/linux.el")
   )
  ((string-match "darwin" system-configuration)
