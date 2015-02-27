@@ -2,3 +2,4 @@ backup/
 auto-save-list/
 elisp/*.elc
 undohist/
+.session
