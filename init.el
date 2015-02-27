@@ -27,6 +27,10 @@
 ;; package
 ;;-------------------------
 
+;; cl-lib
+(require 'cl-lib)
+
+
 ;; auto-install
 ;(when (require 'auto-install nil t)
 ;  (setq auto-install-directory"~/.emacs.d/elisp/")
