@@ -12,7 +12,7 @@
 ;; OS
 ;;-------------------------
 (cond
- ((string-match "wingw" system-configuration)
+ ((string-match "i386-mingw-nt6.1.7601" system-configuration)
   (load "~/.emacs.d/os/win.el")
   )
  ((string-match "linux" system-configuration)
@@ -124,6 +124,9 @@
 ;; key bind
 (global-set-key (kbd "C-x n") 'tabbar-forward)
 (global-set-key (kbd "C-x p") 'tabbar-backward)
+(global-set-key [M-left] 'tabbar-backward-tab)
+(global-set-key [M-right] 'tabbar-forward-tab)
+
 
 ;;-------------------------
 ;; key map
