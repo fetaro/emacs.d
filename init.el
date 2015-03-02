@@ -82,6 +82,19 @@
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 
+;; magit
+(require 'magit)
+(eval-after-load 'magit
+  '(progn
+     (set-face-background 'magit-item-highlight "#202020")
+     (set-face-foreground 'magit-diff-add "#40ff40")
+     (set-face-foreground 'magit-diff-del "#ff4040")
+     (set-face-foreground 'magit-diff-file-header "#4040ff")
+     ))
+
+(prefer-coding-system 'utf-8)
+(setq default-process-coding-system 'utf-8)
+
 ;;---------
 ;; tabber
 ;;---------
@@ -136,7 +149,7 @@
 ;; key map
 ;;-------------------------
 
-(global-set-key (kbd "M-/") 'redo)
+(global-set-key (kbd "M-/") 'comment-dwim) 
 (global-set-key (kbd "C-r") 'query-replace)
 (global-set-key (kbd "C-t") 'other-window)
 (global-set-key (kbd "C-q") 'kill-ring-save) ;copy
@@ -145,6 +158,7 @@
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
 (global-set-key (kbd "C-c d") 'describe-bindings)
 (global-set-key (kbd "C-c b") 'cua-set-rectangle-mark) ;rectangle
+
 ;;anything
 (global-set-key (kbd "C-c f") 'anything-for-files)
 (global-set-key (kbd "C-c y") 'anything-show-kill-ring)
