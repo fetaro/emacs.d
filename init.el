@@ -95,55 +95,10 @@
 (prefer-coding-system 'utf-8)
 (setq default-process-coding-system 'utf-8)
 
-;;---------
-;; tabber
-;;---------
-(require 'tabbar)
-(tabbar-mode 1)
-;; no group
-(setq tabbar-buffer-groups-function nil)
-;; delete left button
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil)
-                 (cons "" nil))))
-;; span
-(setq tabbar-separator '(0.8))
-;; color
- (set-face-attribute
-   'tabbar-default nil
-   :background "dim gray")
-  (set-face-attribute
-   'tabbar-unselected nil
-   :background "dim gray"
-   :foreground "black"
-   :box nil)
-  (set-face-attribute
-   'tabbar-selected nil
-   :background "firebrick"
-   :foreground "white"
-   :box nil)
-
-;; hide buffer start with *
-(defun my-tabbar-buffer-list ()
-  (delq nil
-        (mapcar #'(lambda (b)
-                    (cond
-                     ;; Always include the current buffer.
-                     ((eq (current-buffer) b) b)
-                     ((buffer-file-name b) b)
-                     ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                     ((char-equal ?* (aref (buffer-name b) 0)) nil)
-                     ((buffer-live-p b) b)))
-                (buffer-list))))
-(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
-;; key bind
-(global-set-key (kbd "C-x n") 'tabbar-forward)
-(global-set-key (kbd "C-x p") 'tabbar-backward)
-(global-set-key [M-left] 'tabbar-backward-tab)
-(global-set-key [M-right] 'tabbar-forward-tab)
-
+;; open-junk-file
+(require 'open-junk-file)
+(setq open-junk-file-format "memo/%Y-%m-%d-%H%M%S.")
+(global-set-key (kbd "C-x j") 'open-junk-file)
 
 ;;-------------------------
 ;; key map
