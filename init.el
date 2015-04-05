@@ -104,6 +104,8 @@
 ;; key map
 ;;-------------------------
 
+(global-set-key (kbd "M-p") 'previous-line) 
+(global-set-key (kbd "M-n") 'next-line) 
 (global-set-key (kbd "M-/") 'comment-dwim) 
 (global-set-key (kbd "C-r") 'query-replace)
 (global-set-key (kbd "C-t") 'other-window)
