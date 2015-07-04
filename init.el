@@ -100,6 +100,10 @@
 (setq open-junk-file-format "memo/%Y-%m-%d-%H%M%S.")
 (global-set-key (kbd "C-x j") 'open-junk-file)
 
+;; rspec
+(require 'rspec-mode)
+(custom-set-variables '(rspec-use-rake-flag nil))
+
 ;;-------------------------
 ;; key map
 ;;-------------------------
@@ -117,9 +121,9 @@
 (global-set-key (kbd "C-c b") 'cua-set-rectangle-mark) ;rectangle
 
 ;;anything
-(global-set-key (kbd "C-c f") 'anything-for-files)
-(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
-(global-set-key (kbd "C-c t") 'anything-c-etags-select)
+;(global-set-key (kbd "C-c f") 'anything-for-files)
+;(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
+;(global-set-key (kbd "C-c t") 'anything-c-etags-select)
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
@@ -132,6 +136,11 @@
 (defconst *dmacro-key* "\C-o" "repeat key")
 (global-set-key *dmacro-key* 'dmacro-exec)
 (autoload 'dmacro-exec "dmacro" nil t)
+
+;; rspec-mode
+(global-set-key (kbd "C-c s") 'rspec-verify-single) 
+(global-set-key (kbd "C-c r") 'rspec-verify) 
+
 
 ;;-------------------------
 ;; config
