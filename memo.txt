@@ -1,15 +1,16 @@
-C-o     dƒ}ƒNƒ
-C-x h   ‚·‚×‚Ä‘I‘ğ
-C-x C-w –¼‘O‚ğ•t‚¯‚Ä•Û‘¶ 
-C-x RET f •¶šƒR[ƒh•ÏŠ·
-C-x RET r ŠJ‚«‚È‚¨‚µ
+C-o     dãƒã‚¯ãƒ­
+C-x h   ã™ã¹ã¦é¸æŠ
+C-x C-w åå‰ã‚’ä»˜ã‘ã¦ä¿å­˜ 
+C-x RET f æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›
+C-x RET r é–‹ããªãŠã—
 C-c f   tab+untabfiy
-C-c l   Ü‚è•Ô‚µ‚È‚µ
-C-c d   ƒL[ƒoƒCƒ“ƒh
+C-c l   æŠ˜ã‚Šè¿”ã—ãªã—
+C-c d   ã‚­ãƒ¼ãƒã‚¤ãƒ³ãƒ‰
 C-x u   undotree
-C-c b   ’ZŒa
-M-/     ƒRƒƒ“ƒg/”ñƒRƒƒ“ƒg
-M-x eval-current-buffer
-M-x wdired-change-to-wdired-
-M-< ƒoƒbƒtƒ@‚Ìæ“ª‚ÉˆÚ“®
-M-> ƒoƒbƒtƒ@‚Ì––”ö‚ÉˆÚ“®
+C-c b   çŸ­å¾„
+C-x j   ã‚¸ãƒ£ãƒ³ã‚¯ãƒ•ã‚¡ã‚¤ãƒ«
+M-/     ã‚³ãƒ¡ãƒ³ãƒˆ/éã‚³ãƒ¡ãƒ³ãƒˆ
+M-x     eval-current-buffer
+M-x     wdired-change-to-wdired-
+M-<     ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã«ç§»å‹•
+M->     ãƒãƒƒãƒ•ã‚¡ã®æœ«å°¾ã«ç§»å‹•
