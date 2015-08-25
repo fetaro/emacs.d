@@ -4,3 +4,4 @@ elisp/*.elc
 undohist/
 .session
 ac-comphist.dat
+junk/
