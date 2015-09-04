@@ -1,5 +1,5 @@
-C-o     dマクロ
 C-x h   すべて選択
+C-o     dマクロ
 C-x C-w 名前を付けて保存 
 C-x RET f 文字コード変換
 C-x RET r 開きなおし
@@ -10,7 +10,5 @@ C-x u   undotree
 C-c b   短径
 C-x j   ジャンクファイル
 M-/     コメント/非コメント
-M-x     eval-current-buffer
-M-x     wdired-change-to-wdired-
 M-<     バッファの先頭に移動
 M->     バッファの末尾に移動
