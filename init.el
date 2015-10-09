@@ -97,7 +97,7 @@
 
 ;; open-junk-file
 (require 'open-junk-file)
-(setq open-junk-file-format "junk/%Y-%m-%d-%H%M%S.txt")
+(setq open-junk-file-format "~/.emacs.d/junk/%Y-%m-%d-%H%M%S.txt")
 (global-set-key (kbd "C-x j") 'open-junk-file)
 
 ;; rspec
@@ -113,7 +113,6 @@
 (global-set-key (kbd "M-/") 'comment-dwim) 
 (global-set-key (kbd "C-r") 'query-replace)
 (global-set-key (kbd "C-t") 'other-window)
-(global-set-key (kbd "C-q") 'kill-ring-save) ;copy
 (global-set-key (kbd "C-c /") 'undo-tree-visualize)
 (global-set-key (kbd "C-c g") 'goto-line)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
