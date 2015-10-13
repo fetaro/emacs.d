@@ -23,3 +23,5 @@ magit
  P       push
  F       pull
 
+shell
+ M-p     一つ前のコマンド
