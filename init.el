@@ -37,9 +37,6 @@
 ;  (auto-install-update-emacswiki-package-name t)
 ;  (auto-install-compatibility-setup))
 
-;;undo hist
-;(when (require 'undohist nil t)
-;  (undohist-initialize))
 
 ;;undo-tree
 (when (require 'undo-tree nil t)
@@ -57,11 +54,6 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-;; minibuf-isearch
-;; length of buffer list : t means infinity
-;(setq history-length t)
-;(require 'minibuf-isearch nil t)
-
 ;; session.el
 (when (require 'session nil t)
   (setq session-initialize '(de-saveplace session keys menus places)
@@ -71,11 +63,6 @@
   (add-hook 'after-init-hook 'session-initialize)
   ;; cursole restore
   (setq session-undo-check -1))
-
-
-;; wdired
-;(require 'wdired)
-;(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
 ;; auto-complete
 (require 'auto-complete)
@@ -108,21 +95,12 @@
 ;; key map
 ;;-------------------------
 
-(global-set-key (kbd "M-p") 'previous-line) 
-(global-set-key (kbd "M-n") 'next-line) 
-(global-set-key (kbd "M-/") 'comment-dwim) 
 (global-set-key (kbd "C-r") 'query-replace)
 (global-set-key (kbd "C-t") 'other-window)
-(global-set-key (kbd "C-c /") 'undo-tree-visualize)
 (global-set-key (kbd "C-c g") 'goto-line)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
 (global-set-key (kbd "C-c d") 'describe-bindings)
 (global-set-key (kbd "C-c b") 'cua-set-rectangle-mark) ;rectangle
-
-;;anything
-;(global-set-key (kbd "C-c f") 'anything-for-files)
-;(global-set-key (kbd "C-c y") 'anything-show-kill-ring)
-;(global-set-key (kbd "C-c t") 'anything-c-etags-select)
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
@@ -240,7 +218,7 @@
 (ad-activate 'font-lock-mode)
 
 
-;; grep -r
+;; add -r to grep
 (require 'grep)
 (setq grep-command-before-query "grep -nH -r -e ")
 (defun grep-default-command ()
@@ -284,81 +262,6 @@
         (vector (current-column))))
     (c-set-offset 'arglist-intro 'ywb-php-lineup-arglist-intro)
     (c-set-offset 'arglist-close 'ywb-php-lineup-arglist-close)))
-
-
-;; ;;----------
-;; ;; javascript
-;; ;;----------
-
-;; ;;; js2-mode
-;; (autoload 'js2-mode "js2" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-;; (add-hook 'js2-mode-hook 'js-indent-hook)
-
-;; ;; pretty js2mode indent
-;; ; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
-;; (defun my-js2-indent-function ()
-;;   (interactive)
-;;   (save-restriction
-;;     (widen)
-;;     (let* ((inhibit-point-motion-hooks t)
-;;            (parse-status (save-excursion (syntax-ppss (point-at-bol))))
-;;            (offset (- (current-column) (current-indentation)))
-;;            (indentation (espresso--proper-indentation parse-status))
-;;            node)
-;;       (save-excursion
-;;         (back-to-indentation)
-;;         (if (looking-at "case\\s-")
-;;             (setq indentation (+ indentation (/ espresso-indent-level 2))))
-;;         (setq node (js2-node-at-point))
-;;         (when (and node
-;;                    (= js2-NAME (js2-node-type node))
-;;                    (= js2-VAR (js2-node-type (js2-node-parent node))))
-;;           (setq indentation (+ 4 indentation))))
-;;       (indent-line-to indentation)
-;;       (when (> offset 0) (forward-char offset)))))
-;; (defun my-indent-sexp ()
-;;   (interactive)
-;;   (save-restriction
-;;     (save-excursion
-;;       (widen)
-;;       (let* ((inhibit-point-motion-hooks t)
-;;              (parse-status (syntax-ppss (point)))
-;;              (beg (nth 1 parse-status))
-;;              (end-marker (make-marker))
-;;              (end (progn (goto-char beg) (forward-list) (point)))
-;;              (ovl (make-overlay beg end)))
-;;         (set-marker end-marker end)
-;;         (overlay-put ovl 'face 'highlight)
-;;         (goto-char beg)
-;;         (while (< (point) (marker-position end-marker))
-;;           (beginning-of-line)
-;;           (unless (looking-at "\\s-*$")
-;;             (indent-according-to-mode))
-;;           (forward-line))
-;;         (run-with-timer 0.5 nil '(lambda(ovl)
-;;                                    (delete-overlay ovl)) ovl)))))
-;; (defun my-js2-mode-hook ()
-;;   (require 'espresso)
-;;   (setq espresso-indent-level 4
-;;         indent-tabs-mode nil
-;;         c-basic-offset 4)
-;;   (c-toggle-auto-state 0)
-;;   (c-toggle-hungry-state 1)
-;;   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-;;   (define-key js2-mode-map "\C-\M-\\"
-;;     '(lambda()
-;;        (interactive)
-;;        (insert "/* -----[ ")
-;;        (save-excursion
-;;          (insert " ]----- */"))
-;;        ))
-;;   (define-key js2-mode-map "\C-m" 'newline-and-indent)
-;;   (define-key js2-mode-map "\C-\M-q" 'my-indent-sexp)
-;;   (if (featurep 'js2-highlight-vars)
-;;       (js2-highlight-vars-mode))
-;;   (message "My JS2 hook"))
-;; (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 ;;-----------
 ;; ruby
