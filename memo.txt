@@ -9,6 +9,7 @@ C-c d   キーバインド
 C-x u   undotree
 C-c b   短径
 C-x j   ジャンクファイル
+hoge
 M-<     バッファの先頭に移動
 M->     バッファの末尾に移動
 
