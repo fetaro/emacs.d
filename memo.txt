@@ -36,7 +36,7 @@ M-x smerge-ediff   merge tool起動
   その後
     git add hoge.txt
     git commit 
-bb
+aa
 shell
  M-p     一つ前のコマンド
 
