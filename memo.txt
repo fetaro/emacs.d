@@ -9,7 +9,6 @@ C-c d   キーバインド
 C-x u   undotree
 C-c b   短径
 C-x j   ジャンクファイル
-gitのテスト
 M-/     コメント/非コメント
 M-<     バッファの先頭に移動
 M->     バッファの末尾に移動
@@ -23,6 +22,20 @@ magit
  C-c C-c コミット
  P       push
  F       pull
+ k       トラックしてないファイルを消す
+ i       トラックしてないファイルをgitignoreに
+
+コンフリクト解消
+
+M-x smerge-mode    diffの部分に色を付ける
+M-x smerge-ediff   merge tool起動
+    n   次の差分
+    p   前の差分
+    a b 右か左を選ぶ
+    q   終わる
+  その後
+    git add hoge.txt
+    git commit 
 
 shell
  M-p     一つ前のコマンド
