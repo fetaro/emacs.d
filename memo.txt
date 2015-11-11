@@ -16,6 +16,7 @@ M->     バッファの末尾に移動
 改行の置換 C-q C-j
 
 magit
+
  s       ステージ
  S       全部ステージ
  c       コミットコメント
@@ -36,7 +37,10 @@ M-x smerge-ediff   merge tool起動
   その後
     git add hoge.txt
     git commit 
-aa
+
 shell
  M-p     一つ前のコマンド
 
+markdown
+ M-right インデントを下げる
+ M-left  インデントをあげる
