@@ -39,8 +39,8 @@
 
 
 ;;undo-tree
-(when (require 'undo-tree nil t)
-  (global-undo-tree-mode))
+;(when (require 'undo-tree nil t)
+;  (global-undo-tree-mode))
 
 ;; redo+
 (require 'redo)
@@ -79,8 +79,8 @@
      (set-face-foreground 'magit-diff-file-header "#4040ff")
      ))
 
-(prefer-coding-system 'utf-8)
-(setq default-process-coding-system 'utf-8)
+;(prefer-coding-system 'utf-8)
+;(setq default-process-coding-system 'utf-8)
 
 ;; open-junk-file
 (require 'open-junk-file)
