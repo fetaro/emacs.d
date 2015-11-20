@@ -1,24 +1,25 @@
-C-x h   すべて選択
+C-x h   すべて選択
 C-o     dマクロ
 C-x C-w 名前を付けて保存 
-C-x RET f 文字コード変換
+C-x RET f 文字コード変換
 C-x RET r 開きなおし
+C-x RET u 濁点の分離を治す
 C-c f   tab+untabfiy
 C-c l   折り返しなし
-C-c d   キーバインド
+C-c d   キーバインド
 C-x u   undotree
 C-c b   短径
-C-x j   ジャンクファイル
+C-x j   ジャンクファイル
 M-/     コメント/非コメント
-M-<     バッファの先頭に移動
-M->     バッファの末尾に移動
+M-<     バッファの先頭に移動
+M->     バッファの末尾に移動
 
 改行の置換 C-q C-j
 
 magit
 
- s       ステージ
- S       全部ステージ
+ s       ステージ
+ S       全部ステージ
  c       コミットコメント
  C-c C-c コミット
  P       push
@@ -32,15 +33,15 @@ M-x smerge-mode    diffの部分に色を付ける
 M-x smerge-ediff   merge tool起動
     n   次の差分
     p   前の差分
-    a b 右か左を選ぶ
+    a b 右か左を選ぶ
     q   終わる
   その後
     git add hoge.txt
     git commit 
 
 shell
- M-p     一つ前のコマンド
+ M-p     一つ前のコマンド
 
 markdown
- M-right インデントを下げる
- M-left  インデントをあげる
+ M-right インデントを下げる
+ M-left  インデントをあげる

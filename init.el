@@ -245,6 +245,21 @@
 ;(set-face-attribute 'default nil :family "MS PMincho" :height 140)
 ;(set-face-attribute 'default nil :family "MS PGothic" :height 140)
 
+;; ------------------------
+;; Fix Dakuten
+;;     M-x ucs-normalize-NFC-buffer  or C-x RET u
+;; ---------------------------
+(require 'ucs-normalize)
+(prefer-coding-system 'utf-8-hfs)
+(setq file-name-coding-system 'utf-8-hfs)
+(setq locale-coding-system 'utf-8-hfs)
+
+(defun ucs-normalize-NFC-buffer ()
+  (interactive)
+  (ucs-normalize-NFC-region (point-min) (point-max))
+  )
+
+(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer)
 
 ;;--------------------------------------
 ;; File type
