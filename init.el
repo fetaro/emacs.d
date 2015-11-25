@@ -8,6 +8,7 @@
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (normal-top-level-add-subdirs-to-load-path)))
 
+
 ;;-------------------------
 ;; OS
 ;;-------------------------
@@ -176,8 +177,27 @@
 ;       scroll-step 1)
 ;(setq comint-scroll-show-maximum-output t)
 
+;; add -r to grep
+(require 'grep)
+(setq grep-command-before-query "grep -nH -r -e ")
+(defun grep-default-command ()
+  (if current-prefix-arg
+      (let ((grep-command-before-target
+             (concat grep-command-before-query
+                     (shell-quote-argument (grep-tag-default)))))
+        (cons (if buffer-file-name
+                  (concat grep-command-before-target
+                          " *."
+                          (file-name-extension buffer-file-name))
+                (concat grep-command-before-target " ."))
+              (+ (length grep-command-before-target) 1)))
+    (car grep-command)))
+(setq grep-command (cons (concat grep-command-before-query " .")
+                         (+ (length grep-command-before-query) 1)))
+
+
 ;;-------------------------
-;; color
+;; color 
 ;;-------------------------
 
 ;; Color
@@ -217,25 +237,29 @@
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
 
+;;-------------------------
+;; font
+;;-------------------------
+(set-face-attribute 'default nil :family "MS Mincho" :height 140)
+;(set-face-attribute 'default nil :family "MS Gothic" :height 140)
+;(set-face-attribute 'default nil :family "MS PMincho" :height 140)
+;(set-face-attribute 'default nil :family "MS PGothic" :height 140)
 
-;; add -r to grep
-(require 'grep)
-(setq grep-command-before-query "grep -nH -r -e ")
-(defun grep-default-command ()
-  (if current-prefix-arg
-      (let ((grep-command-before-target
-             (concat grep-command-before-query
-                     (shell-quote-argument (grep-tag-default)))))
-        (cons (if buffer-file-name
-                  (concat grep-command-before-target
-                          " *."
-                          (file-name-extension buffer-file-name))
-                (concat grep-command-before-target " ."))
-              (+ (length grep-command-before-target) 1)))
-    (car grep-command)))
-(setq grep-command (cons (concat grep-command-before-query " .")
-                         (+ (length grep-command-before-query) 1)))
+;; ------------------------
+;; Fix Dakuten
+;;     M-x ucs-normalize-NFC-buffer  or C-x RET u
+;; ---------------------------
+(require 'ucs-normalize)
+(prefer-coding-system 'utf-8-hfs)
+(setq file-name-coding-system 'utf-8-hfs)
+(setq locale-coding-system 'utf-8-hfs)
 
+(defun ucs-normalize-NFC-buffer ()
+  (interactive)
+  (ucs-normalize-NFC-region (point-min) (point-max))
+  )
+
+(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer)
 
 ;;--------------------------------------
 ;; File type
@@ -374,5 +398,4 @@
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
 
