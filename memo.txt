@@ -3,7 +3,7 @@ C-o     dマクロ
 C-x C-w 名前を付けて保存 
 C-x RET f 文字コード変換
 C-x RET r 開きなおし
-C-x RET u 濁点の分離を治す
+C-x RET u バッファ全体の濁点の分離を治す
 C-c f   tab+untabfiy
 C-c l   折り返しなし
 C-c d   キーバインド
