@@ -8,6 +8,18 @@
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (normal-top-level-add-subdirs-to-load-path)))
 
+;; take over PATH ENV
+
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
+
+This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(set-exec-path-from-shell-PATH)
 
 ;;-------------------------
 ;; OS
@@ -415,3 +427,33 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+
+;; custom color
+(defface markdown-header-face-1
+  '((((class color) (background light))
+     (:foreground "CadetBlue1" :underline "CadetBlue1" :weight bold))
+    (((class color) (background dark))
+     (:foreground "CadetBlue1" :underline "CadetBlue1" :weight bold)))
+  "Face for level-1 headers.")
+
+(defface markdown-header-face-2
+  '(
+    (((class color) (background light))
+     (:foreground "PaleGreen1" :underline "PaleGreen1" :weight bold))
+    (((class color) (background dark))
+     (:foreground "PaleGreen1" :underline "PaleGreen1" :weight bold)))
+  "Face for level-2 headers.")
+
+(defface markdown-header-face-3
+  '((((class color) (background light))
+     (:foreground "white" :underline "white" :weight bold))
+    (((class color) (background dark))
+     (:foreground "white" :underline "white" :weight bold)))
+  "Face for level-3 headers.")
+
+(defface markdown-header-face-4
+  '((((class color) (background light))
+     (:foreground "white" :underline "white" :weight bold))
+    (((class color) (background dark))
+     (:foreground "white" :underline "white" :weight bold)))
+  "Face for level-4 headers.")
