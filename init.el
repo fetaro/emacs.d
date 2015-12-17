@@ -39,9 +39,9 @@
 ;  (auto-install-compatibility-setup))
 
 
-;;undo-tree
-;(when (require 'undo-tree nil t)
-;  (global-undo-tree-mode))
+;undo-tree
+(when (require 'undo-tree nil t)
+  (global-undo-tree-mode))
 
 ;; redo+
 (require 'redo)
@@ -66,9 +66,9 @@
   (setq session-undo-check -1))
 
 ;; auto-complete
-(require 'auto-complete)
-(require 'auto-complete-config)
-(global-auto-complete-mode t)
+;(require 'auto-complete)
+;(require 'auto-complete-config)
+;(global-auto-complete-mode t)
 
 ;; magit
 (require 'magit)
@@ -102,6 +102,8 @@
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
 (global-set-key (kbd "C-c d") 'describe-bindings)
 (global-set-key (kbd "C-c b") 'cua-set-rectangle-mark) ;rectangle
+;(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer);; Fix Dakuten
+
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
@@ -245,25 +247,35 @@
 ;(set-face-attribute 'default nil :family "MS PMincho" :height 140)
 ;(set-face-attribute 'default nil :family "MS PGothic" :height 140)
 
+;; ------------------------------
+;; prevent from killing *scratch* buffer
+;; ------------------------------
+(defun my-make-scratch (&optional arg)
+  (interactive)
+  (progn
+    (set-buffer (get-buffer-create "*scratch*"))
+    (funcall initial-major-mode)
+    (erase-buffer)
+    (when (and initial-scratch-message (not inhibit-startup-message))
+      (insert initial-scratch-message))
+    (or arg (progn (setq arg 0)
+                   (switch-to-buffer "*scratch*")))
+    (cond ((= arg 0) (message "*scratch* is cleared up."))
+          ((= arg 1) (message "another *scratch* is created")))))
 
+(defun my-buffer-name-list ()
+  (mapcar (function buffer-name) (buffer-list)))
 
-;; ------------------------
-;; Fix Dakuten
-;;     M-x ucs-normalize-NFC-buffer  or C-x RET u
-;; ---------------------------
-;(require 'ucs-normalize)
-;(prefer-coding-system 'utf-8-hfs)
-;(setq file-name-coding-system 'utf-8-hfs)
-;(setq locale-coding-system 'utf-8-hfs)
-;
-;(defun ucs-normalize-NFC-buffer ()
-;  (interactive)
-;  (ucs-normalize-NFC-region (point-min) (point-max))
-;  )
-;
-;(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer)
+(add-hook 'kill-buffer-query-functions
+          (function (lambda ()
+                      (if (string= "*scratch*" (buffer-name))
+                          (progn (my-make-scratch 0) nil)
+                        t))))
 
-
+(add-hook 'after-save-hook
+          (function (lambda ()
+                      (unless (member "*scratch*" (my-buffer-name-list))
+                        (my-make-scratch 1)))))
 
 ;;--------------------------------------
 ;; File type
