@@ -104,6 +104,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'rspec-mode)
 (custom-set-variables '(rspec-use-rake-flag nil))
 
+;;wgrep
+(require 'wgrep)
+
 ;;-------------------------
 ;; key map
 ;;-------------------------
