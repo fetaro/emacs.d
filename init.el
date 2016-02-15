@@ -114,6 +114,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
+;;wgrep
+(require 'wgrep)
 
 ;;-------------------------
 ;; key map

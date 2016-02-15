@@ -55,3 +55,10 @@ s   mark save
 x   execute
 o   show another window
 T   toggle Showing System Buffer 
+
+
+wgrep
+ 1. grepする
+ 2. C-c C-p で編集モード
+ 3. C-c C-c で決定
+ 4. 保存する
