@@ -21,6 +21,12 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (set-exec-path-from-shell-PATH)
 
+;; open same window in MacOSX
+(setq ns-pop-up-frames nil) 
+
+;; scroll 1 line
+(setq scroll-conservatively 1)
+
 ;;-------------------------
 ;; OS
 ;;-------------------------
@@ -103,6 +109,11 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; rspec
 (require 'rspec-mode)
 (custom-set-variables '(rspec-use-rake-flag nil))
+
+;; ssh
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
 
 ;;-------------------------
 ;; key map
