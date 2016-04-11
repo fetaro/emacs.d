@@ -17,3 +17,5 @@
 ;        '((".*Hiragino_Mincho_pro.*" . 1.2)))
       '((".*Hiragino_Kaku_Gothic_ProN.*" . 1.2)));; macfont
 
+;; YEN mark to Back SLash
+(define-key global-map [165] [92])
