@@ -117,6 +117,13 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;wgrep
 (require 'wgrep)
 
+;;insert date
+(defun insert-date ()
+  "Insert current date yyyymmdd."
+  (interactive)
+  (insert (format-time-string "%Y%m%d")))
+
+
 ;;-------------------------
 ;; key map
 ;;-------------------------
@@ -128,7 +135,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (global-set-key (kbd "C-c d") 'describe-bindings)
 (global-set-key (kbd "C-c b") 'cua-set-rectangle-mark) ;rectangle
 ;(global-set-key (kbd "C-x RET u") 'ucs-normalize-NFC-buffer);; Fix Dakuten
-
+(global-set-key (kbd "M-d") 'insert-date) 
 
 ;; Untab and Indent
 (global-set-key (kbd "C-c i") 'untabify-and-indent-whole-buffer)
