@@ -479,3 +479,10 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (require 'flymake-python-pyflakes)
 (add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
+
+; show message on mini-buffer
+(defun flymake-show-help ()
+  (when (get-char-property (point) 'flymake-overlay)
+    (let ((help (get-char-property (point) 'help-echo)))
+      (if help (message "%s" help)))))
+(add-hook 'post-command-hook 'flymake-show-help)
