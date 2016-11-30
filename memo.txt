@@ -1,3 +1,11 @@
+パッケージ
+インストール
+.emacs.d/Caskを編集
+$ cask
+もしくは
+M-x package-install  ->palletがCaskに書いてくれる
+リセットする場合は.emacs.d/.caskを消せば良い
+
 C-x 0   フォントサイズ
 
 C-x h   すべて選択

@@ -2,11 +2,21 @@
 (define-key global-map "\C-h" 'delete-backward-char)
 ;; change home directory
 (cd "~/")
+
+;; cask -- package manager
+(require 'cask "/usr/local/opt/cask/cask.el")
+(cask-initialize)
+
+;; pallet -- integrate cask and package.el
+(require 'pallet)
+(pallet-mode t)
+
 ;; set load path
-(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-  (add-to-list 'load-path default-directory)
-  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-      (normal-top-level-add-subdirs-to-load-path)))
+(add-to-list 'load-path "~/.emacs.d/elisp")
+;(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
+;  (add-to-list 'load-path default-directory)
+;  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+;      (normal-top-level-add-subdirs-to-load-path)))
 
 ;; take over PATH ENV
 
@@ -27,6 +37,16 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; scroll 1 line
 (setq scroll-conservatively 1)
 
+;; rectangle mark
+(cua-mode t)
+(setq cua-enable-cua-keys nil)
+
+;;insert date
+(defun insert-date ()
+  "Insert current date yyyymmdd."
+  (interactive)
+  (insert (format-time-string "%Y%m%d")))
+
 ;;-------------------------
 ;; OS
 ;;-------------------------
@@ -46,32 +66,15 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; package
 ;;-------------------------
 
-;; cl-lib
-(require 'cl-lib)
-
-
-;; auto-install
-;(when (require 'auto-install nil t)
-;  (setq auto-install-directory"~/.emacs.d/elisp/")
-;  (auto-install-update-emacswiki-package-name t)
-;  (auto-install-compatibility-setup))
-
-
 ;undo-tree
 (when (require 'undo-tree nil t)
   (global-undo-tree-mode))
-
-;; redo+
-(require 'redo)
 
 ;; anything
 (require 'anything-config)
 (require 'descbinds-anything)
 (descbinds-anything-install)
 
-;; rectangle mark
-(cua-mode t)
-(setq cua-enable-cua-keys nil)
 
 ;; session.el
 (when (require 'session nil t)
@@ -83,23 +86,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   ;; cursole restore
   (setq session-undo-check -1))
 
-;; auto-complete
-;(require 'auto-complete)
-;(require 'auto-complete-config)
-;(global-auto-complete-mode t)
 
 ;; magit
 (require 'magit)
-(eval-after-load 'magit
-  '(progn
-     (set-face-background 'magit-item-highlight "#202020")
-     (set-face-foreground 'magit-diff-add "#40ff40")
-     (set-face-foreground 'magit-diff-del "#ff4040")
-     (set-face-foreground 'magit-diff-file-header "#4040ff")
-     ))
-
-;(prefer-coding-system 'utf-8)
-;(setq default-process-coding-system 'utf-8)
 
 ;; open-junk-file
 (require 'open-junk-file)
@@ -117,11 +106,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;wgrep
 (require 'wgrep)
 
-;;insert date
-(defun insert-date ()
-  "Insert current date yyyymmdd."
-  (interactive)
-  (insert (format-time-string "%Y%m%d")))
 
 
 ;;-------------------------
@@ -418,20 +402,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
       (setq count (1- count)))))
 
 ;;---------
-;; coffee
-;;---------
-(require 'coffee-mode)
-(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (and (set (make-local-variable 'tab-width) 2)
-       (set (make-local-variable 'coffee-tab-width) 2))
-  )
-
-(add-hook 'coffee-mode-hook
-  '(lambda() (coffee-custom)))
-
-;;---------
 ;; markdown
 ;;---------
 (autoload 'markdown-mode "markdown-mode"
@@ -486,3 +456,18 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
     (let ((help (get-char-property (point) 'help-echo)))
       (if help (message "%s" help)))))
 (add-hook 'post-command-hook 'flymake-show-help)
+
+
+;;--------------
+;; javascript
+;;--------------
+
+; js2-mode
+(require 'js2-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+; flymake
+(setq exec-path (append exec-path '("~/.anyenv/envs/ndenv/shims/")))
+(add-hook 'js2-mode-hook '(lambda ()
+                              (require 'flymake-jshint)
+                              (flymake-jshint-load)))
