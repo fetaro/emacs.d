@@ -4,7 +4,7 @@
 (cd "~/")
 
 ;; cask -- package manager
-(require 'cask "/usr/local/opt/cask/cask.el")
+(require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
 ;; pallet -- integrate cask and package.el

@@ -7,7 +7,6 @@
 (depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
 
 ; global
-(depends-on "magit")
 (depends-on "undo-tree")
 (depends-on "session")
 (depends-on "open-junk-file")
@@ -17,6 +16,7 @@
 (depends-on "flymake-easy")
 (depends-on "color-theme")
 (depends-on "anything")
+;(depends-on "magit") ; need emacs 24.4-
 
 ; markdown
 (depends-on "markdown-mode")
