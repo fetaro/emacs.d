@@ -4,7 +4,7 @@
 ;pallet
 (depends-on "cask")
 (depends-on "graphene" "20141030.219")
-(depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
+;(depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
 
 ; global
 (depends-on "undo-tree")

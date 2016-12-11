@@ -8,8 +8,8 @@
 (cask-initialize)
 
 ;; pallet -- integrate cask and package.el
-(require 'pallet)
-(pallet-mode t)
+;(require 'pallet)
+;(pallet-mode t)
 
 ;; set load path
 (add-to-list 'load-path "~/.emacs.d/elisp")
