@@ -70,12 +70,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (when (require 'undo-tree nil t)
   (global-undo-tree-mode))
 
-;; anything
-(require 'anything-config)
-(require 'descbinds-anything)
-(descbinds-anything-install)
-
-
 ;; session.el
 (when (require 'session nil t)
   (setq session-initialize '(de-saveplace session keys menus places)
