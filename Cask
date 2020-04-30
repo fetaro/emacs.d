@@ -4,7 +4,6 @@
 ;pallet
 (depends-on "cask")
 (depends-on "graphene" "20141030.219")
-;(depends-on "pallet" :git "https://github.com/rdallasgray/pallet" :ref "master")
 
 ; global
 (depends-on "undo-tree")
@@ -15,8 +14,6 @@
 (depends-on "flymake")
 (depends-on "flymake-easy")
 (depends-on "color-theme")
-(depends-on "anything")
-;(depends-on "magit") ; need emacs 24.4-
 
 ; markdown
 (depends-on "markdown-mode")

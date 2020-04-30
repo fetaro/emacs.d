@@ -1,3 +1,5 @@
+session*
+.cask
 backup/
 auto-save-list/
 elisp/*.elc
@@ -5,3 +7,4 @@ undohist/
 .session
 ac-comphist.dat
 junk/
+smex-items

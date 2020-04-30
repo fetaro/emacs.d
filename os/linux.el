@@ -3,8 +3,9 @@
 ;;-------------------------
 ;; font
 ;;-------------------------
-(set-face-attribute 'default nil :family "MS Mincho" :height 140)
-;(set-face-attribute 'default nil :family "MS Gothic" :height 140)
-;(set-face-attribute 'default nil :family "MS PMincho" :height 140)
-;(set-face-attribute 'default nil :family "MS PGothic" :height 140)
+;; Initial frame settings
+(setq default-frame-alist
+      (append (list
+              '(font . "DejaVu Sans Mono Book"))
+              default-frame-alist))
 

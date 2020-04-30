@@ -1,4 +1,11 @@
-;; use backspace
+; use backspace
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (define-key global-map "\C-h" 'delete-backward-char)
 ;; change home directory
 (cd "~/")
@@ -91,7 +98,14 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 ;; rspec
 (require 'rspec-mode)
-(custom-set-variables '(rspec-use-rake-flag nil))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cua-mode t nil (cua-base))
+ '(rspec-use-rake-when-possible nil)
+ '(session-use-package t nil (session)))
 
 ;; ssh
 (require 'tramp)
@@ -225,9 +239,13 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
      (color-theme-initialize)
      (color-theme-arjen)))
 ;; font-lock-keyword-face
-(custom-set-variables
- '(session-use-package t nil (session)))
+
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 98 :width normal))))
  '(font-lock-keyword-face ((t (:foreground "cyan" :bold t)))))
 
 
@@ -465,3 +483,5 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-hook 'js2-mode-hook '(lambda ()
                               (require 'flymake-jshint)
                               (flymake-jshint-load)))
+
+
