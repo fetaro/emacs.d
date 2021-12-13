@@ -1,5 +1,8 @@
-; use backspace
 
+;to avoid https://github.com/cask/cask/issues/463
+(setq warning-suppress-log-types '((package reinitialization)))
+
+; use backspace
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
