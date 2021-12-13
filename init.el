@@ -14,16 +14,8 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
-;; pallet -- integrate cask and package.el
-;(require 'pallet)
-;(pallet-mode t)
-
 ;; set load path
 (add-to-list 'load-path "~/.emacs.d/elisp")
-;(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-;  (add-to-list 'load-path default-directory)
-;  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-;      (normal-top-level-add-subdirs-to-load-path)))
 
 ;; take over PATH ENV
 
@@ -73,10 +65,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; package
 ;;-------------------------
 
-;undo-tree
-(when (require 'undo-tree nil t)
-  (global-undo-tree-mode))
-
 ;; session.el
 (when (require 'session nil t)
   (setq session-initialize '(de-saveplace session keys menus places)
@@ -86,34 +74,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (add-hook 'after-init-hook 'session-initialize)
   ;; cursole restore
   (setq session-undo-check -1))
-
-
-;; magit
-(require 'magit)
-
-;; open-junk-file
-(require 'open-junk-file)
-(setq open-junk-file-format "~/.emacs.d/junk/%Y-%m-%d-%H%M%S.txt")
-(global-set-key (kbd "C-x j") 'open-junk-file)
-
-;; rspec
-(require 'rspec-mode)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cua-mode t nil (cua-base))
- '(rspec-use-rake-when-possible nil)
- '(session-use-package t nil (session)))
-
-;; ssh
-(require 'tramp)
-(setq tramp-default-method "ssh")
-
-;;wgrep
-(require 'wgrep)
-
 
 
 ;;-------------------------
@@ -140,10 +100,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (defconst *dmacro-key* "\C-o" "repeat key")
 (global-set-key *dmacro-key* 'dmacro-exec)
 (autoload 'dmacro-exec "dmacro" nil t)
-
-;; rspec-mode
-(global-set-key (kbd "C-c s") 'rspec-verify-single) 
-(global-set-key (kbd "C-c r") 'rspec-verify) 
 
 
 ;;-------------------------
@@ -196,12 +152,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (after kill-up-dired-buffer-after activate)
   (if (eq major-mode 'dired-mode)
       (kill-buffer my-dired-before-buffer)))
-
-;; scroll by 1 line
-;(setq scroll-conservatively 35
-;       scroll-margin 0
-;       scroll-step 1)
-;(setq comint-scroll-show-maximum-output t)
 
 ;; add -r to grep
 (require 'grep)
@@ -296,163 +246,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
           (function (lambda ()
                       (unless (member "*scratch*" (my-buffer-name-list))
                         (my-make-scratch 1)))))
-
-;;--------------------------------------
-;; File type
-;;--------------------------------------
-
-;;----------
-;; PHP
-;;----------
-
-;; php-mode
-(autoload 'php-mode "php-mode" )
-(setq auto-mode-alist
-      (cons '("\\.php\\'" . php-mode) auto-mode-alist))
-
-; pretty php indent
-(add-hook 'php-mode-hook (lambda ()
-    (defun ywb-php-lineup-arglist-intro (langelem)
-      (save-excursion
-        (goto-char (cdr langelem))
-        (vector (+ (current-column) c-basic-offset))))
-    (defun ywb-php-lineup-arglist-close (langelem)
-      (save-excursion
-        (goto-char (cdr langelem))
-        (vector (current-column))))
-    (c-set-offset 'arglist-intro 'ywb-php-lineup-arglist-intro)
-    (c-set-offset 'arglist-close 'ywb-php-lineup-arglist-close)))
-
-;;-----------
-;; ruby
-;;-----------
-
-;; ruby on rails
-(add-to-list 'auto-mode-alist '("\\.js.erb$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.css.erb$" . css-mode))
-(add-to-list 'auto-mode-alist '("\\.css.scss$" . css-mode))
-
-;; highlight ( )
-(when (require 'ruby-block nil t)
-  (setq ruby-block-highlight-toggle t))
-;; inf ruby
-(autoload 'ruby-mode "ruby-mode"
-  "Mode for editing ruby source files" t)
-(setq auto-mode-alist
-      (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("Rakefile" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("Gemfile" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("\\.gemspec" . ruby-mode)) auto-mode-alist))
-(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
-                                     interpreter-mode-alist))
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (inf-ruby-keys)))
-
-;; for indent
-(setq ruby-deep-indent-paren-style nil)
-(defadvice ruby-indent-line (after unindent-closing-paren activate)
-  (let ((column (current-column))
-        indent offset)
-    (save-excursion
-      (back-to-indentation)
-      (let ((state (syntax-ppss)))
-        (setq offset (- column (current-column)))
-        (when (and (eq (char-after) ?\))
-                   (not (zerop (car state))))
-          (goto-char (cadr state))
-          (setq indent (current-indentation)))))
-    (when indent
-      (indent-line-to indent)
-      (when (> offset 0) (forward-char offset)))))
-
-;; flymake for ruby
-(require 'flymake)
-;;  flymake color
-(set-face-background 'flymake-errline "VioletRed4")
-(set-face-foreground 'flymake-errline "snow")
-(set-face-background 'flymake-warnline "VioletRed4")
-(set-face-foreground 'flymake-warnline "snow")
-;; Invoke ruby with '-c' to get syntax checking
-(defun flymake-ruby-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "ruby" (list "-c" local-file))))
-(push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
-(add-hook
- 'ruby-mode-hook
- '(lambda ()
-    (if (not (null buffer-file-name)) (flymake-mode))
-    (define-key ruby-mode-map "\C-cd" 'credmp/flymake-display-err-minibuf)))
-(defun credmp/flymake-display-err-minibuf ()
-  (interactive)
-  (let* ((line-no             (flymake-current-line-no))
-         (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
-         (count               (length line-err-info-list))
-         )
-    (while (> count 0)
-      (when line-err-info-list
-        (let* ((file       (flymake-ler-file (nth (1- count) line-err-info-list)))
-               (full-file  (flymake-ler-full-file (nth (1- count) line-err-info-list)))
-               (text (flymake-ler-text (nth (1- count) line-err-info-list)))
-               (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
-          (message "[%s] %s" line text)
-          )
-        )
-      (setq count (1- count)))))
-
-;;---------
-;; markdown
-;;---------
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-
-;; custom color
-(defface markdown-header-face-1
-  '((((class color) (background light))
-     (:foreground "CadetBlue1" :underline "CadetBlue1" :weight bold))
-    (((class color) (background dark))
-     (:foreground "CadetBlue1" :underline "CadetBlue1" :weight bold)))
-  "Face for level-1 headers.")
-
-(defface markdown-header-face-2
-  '(
-    (((class color) (background light))
-     (:foreground "PaleGreen1" :underline "PaleGreen1" :weight bold))
-    (((class color) (background dark))
-     (:foreground "PaleGreen1" :underline "PaleGreen1" :weight bold)))
-  "Face for level-2 headers.")
-
-(defface markdown-header-face-3
-  '((((class color) (background light))
-     (:foreground "white" :underline "white" :weight bold))
-    (((class color) (background dark))
-     (:foreground "white" :underline "white" :weight bold)))
-  "Face for level-3 headers.")
-
-(defface markdown-header-face-4
-  '((((class color) (background light))
-     (:foreground "white" :underline "white" :weight bold))
-    (((class color) (background dark))
-     (:foreground "white" :underline "white" :weight bold)))
-  "Face for level-4 headers.")
-
-
 
 
 ;;--------------
