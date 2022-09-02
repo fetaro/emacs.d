@@ -1,37 +1,7 @@
 
-;to avoid https://github.com/cask/cask/issues/463
-(setq warning-suppress-log-types '((package reinitialization)))
-
-; use backspace
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (define-key global-map "\C-h" 'delete-backward-char)
 ;; change home directory
 (cd "~/")
-
-;; cask -- package manager
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-
-;; set load path
-(add-to-list 'load-path "~/.emacs.d/elisp")
-
-;; take over PATH ENV
-
-(defun set-exec-path-from-shell-PATH ()
-  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
-
-This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
-  (interactive)
-  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(set-exec-path-from-shell-PATH)
 
 ;; open same window in MacOSX
 (setq ns-pop-up-frames nil) 
@@ -42,12 +12,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; rectangle mark
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
-
-;;insert date
-(defun insert-date ()
-  "Insert current date yyyymmdd."
-  (interactive)
-  (insert (format-time-string "%Y%m%d")))
 
 ;;-------------------------
 ;; OS
@@ -63,21 +27,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (load "~/.emacs.d/os/mac.el")
   )
 )
-
-;;-------------------------
-;; package
-;;-------------------------
-
-;; session.el
-(when (require 'session nil t)
-  (setq session-initialize '(de-saveplace session keys menus places)
-        session-globals-include '((kill-ring 50)
-                                  (session-file-alist 500 t)
-                                  (file-name-history 10000)))
-  (add-hook 'after-init-hook 'session-initialize)
-  ;; cursole restore
-  (setq session-undo-check -1))
-
 
 ;;-------------------------
 ;; key map
@@ -250,34 +199,5 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
                       (unless (member "*scratch*" (my-buffer-name-list))
                         (my-make-scratch 1)))))
 
-
-;;--------------
-;; Python
-;;--------------
-
-(require 'flymake-python-pyflakes)
-(add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
-
-; show message on mini-buffer
-(defun flymake-show-help ()
-  (when (get-char-property (point) 'flymake-overlay)
-    (let ((help (get-char-property (point) 'help-echo)))
-      (if help (message "%s" help)))))
-(add-hook 'post-command-hook 'flymake-show-help)
-
-
-;;--------------
-;; javascript
-;;--------------
-
-; js2-mode
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-; flymake
-(setq exec-path (append exec-path '("~/.anyenv/envs/ndenv/shims/")))
-(add-hook 'js2-mode-hook '(lambda ()
-                              (require 'flymake-jshint)
-                              (flymake-jshint-load)))
 
 
