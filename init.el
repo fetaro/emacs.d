@@ -48,6 +48,15 @@
   (untabify (point-min) (point-max))
   (indent-region (point-min) (point-max)))
 
+;;-------------------------
+;; external lib
+;;-------------------------
+
+;; import from ./lisp
+(let ((default-directory (locate-user-emacs-file "./lisp")))
+  (add-to-list 'load-path default-directory)
+  (normal-top-level-add-subdirs-to-load-path))
+
 ;; dmacro
 (defconst *dmacro-key* "\C-o" "repeat key")
 (global-set-key *dmacro-key* 'dmacro-exec)
